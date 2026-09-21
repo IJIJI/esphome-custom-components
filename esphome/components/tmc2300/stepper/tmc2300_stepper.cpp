@@ -67,7 +67,7 @@ void TMC2300Stepper::loop() {
   TMC2300Component::loop();
 
   // Compute speed and direction
-  const time_t now = micros();
+  const uint32_t now = micros();
   this->calculate_speed_(now);
   const int32_t to_target = (this->target_position - this->current_position);
   this->current_direction = (to_target != 0 ? (Direction) (to_target / abs(to_target)) : Direction::STANDSTILL);
@@ -83,7 +83,7 @@ void TMC2300Stepper::loop() {
 #endif
 
 #if defined(PULSES_CONTROL)
-  time_t dt = now - this->last_step_;
+  uint32_t dt = now - this->last_step_;
   if (dt >= (1 / (float) vactual_) * 1e6f) {
     if (this->direction_ != this->current_direction) {
       this->dir_pin_->digital_write(this->current_direction == Direction::BACKWARD);
